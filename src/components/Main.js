@@ -2,6 +2,7 @@ import React from "react";
 import { inputText, clearText, evalText } from "../actions/index";
 import { connect } from "react-redux";
 import Calculator from "./Calculator";
+import "../styles/calculator.scss";
 
 const mapStateToProps = state => {
   return { ...state };

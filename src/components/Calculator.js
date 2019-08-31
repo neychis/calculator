@@ -47,7 +47,6 @@ export default class Calculator extends React.Component {
         <button id="clear" type="button" onClick={this.onClearClick}>
           AC
         </button>
-        {this.getNumberButtons()}
         <button id="add" type="button" onClick={this.onInput} value="+">
           +
         </button>
@@ -57,8 +56,12 @@ export default class Calculator extends React.Component {
         <button id="multiply" type="button" onClick={this.onInput} value="*">
           *
         </button>
-        <button id="divide" type="button" onClick={this.onInput} value="\">
-          \
+        {this.getNumberButtons()}
+        <button id="dot" type="button" onClick={this.onInput} value=".">
+          .
+        </button>
+        <button id="divide" type="button" onClick={this.onInput} value="/">
+          /
         </button>
         <button id="eval" type="button" onClick={this.onEvalClick} value="=">
           =
