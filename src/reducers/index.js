@@ -32,7 +32,7 @@ export const rootReducer = (state = defaultState, action) => {
     case actions.EVAL:
       let result = 0;
       try {
-        result = Math.round(100 * eval(state.expressionToEval)) / 100;
+        result = Math.round(100000 * eval(state.expressionToEval)) / 100000;
       } catch (e) {}
       return {
         input: result,

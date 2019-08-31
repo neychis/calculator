@@ -50,20 +50,20 @@ export default class Calculator extends React.Component {
         <button id="add" type="button" onClick={this.onInput} value="+">
           +
         </button>
-        <button id="substract" type="button" onClick={this.onInput} value="-">
+        <button id="subtract" type="button" onClick={this.onInput} value="-">
           -
         </button>
         <button id="multiply" type="button" onClick={this.onInput} value="*">
           *
         </button>
         {this.getNumberButtons()}
-        <button id="dot" type="button" onClick={this.onInput} value=".">
+        <button id="decimal" type="button" onClick={this.onInput} value=".">
           .
         </button>
         <button id="divide" type="button" onClick={this.onInput} value="/">
           /
         </button>
-        <button id="eval" type="button" onClick={this.onEvalClick} value="=">
+        <button id="equals" type="button" onClick={this.onEvalClick} value="=">
           =
         </button>
       </div>
