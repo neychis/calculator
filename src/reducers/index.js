@@ -6,27 +6,10 @@ const defaultState = {
   expressionToEval: ""
 };
 
-const numbersRegex = /^[=\*+-\\]/;
-
 export const rootReducer = (state = defaultState, action) => {
   switch (action.type) {
     case actions.INPUT:
-      let expr = state.expressionToDisplay;
-      if (state.expressionToDisplay !== state.expressionToEval) {
-        if (!numbersRegex.test(action.input)) {
-          expr = "";
-        } else {
-          expr = state.expressionToEval;
-        }
-      }
-      expr += action.input;
-      return {
-        input: numbersRegex.test(action.input)
-          ? action.input
-          : state.expressionToDisplay + action.input,
-        expressionToDisplay: expr,
-        expressionToEval: expr
-      };
+      return handleInput(state, action.input);
     case actions.CLEAR:
       return defaultState;
     case actions.EVAL:
@@ -42,4 +25,23 @@ export const rootReducer = (state = defaultState, action) => {
     default:
       return state;
   }
+};
+
+const handleInput = (state, input) => {
+  const numbersRegex = /^[=\*\+\-\\]/;
+  console.log(`${input} ${numbersRegex.test(input)}`);
+  let expr = state.expressionToDisplay;
+  if (state.expressionToDisplay !== state.expressionToEval) {
+    if (!numbersRegex.test(input)) {
+      expr = "";
+    } else {
+      expr = state.expressionToEval;
+    }
+  }
+  expr += input;
+  return {
+    input: numbersRegex.test(input) ? input : state.expressionToDisplay + input,
+    expressionToDisplay: expr,
+    expressionToEval: expr
+  };
 };
