@@ -1,29 +1,23 @@
-//Here will be your action name constants and action creators
-const INPUT = "INPUT";
-const EVAL = "EVAL";
-const CLEAR = "CLEAR";
+import { actions } from "./constants";
 
-export const actions = {
-  INPUT,
-  EVAL,
-  CLEAR
-};
-
-export const inputText = text => {
+export const digitPressed = digit => {
   return {
-    type: actions.INPUT,
-    input: text
+    type: actions.DIGIT_PRESSED,
+    digit
   };
 };
-
-export const evalText = () => {
-  return {
-    type: actions.EVAL
-  };
+export const evalPressed = () => {
+  return { type: actions.EVAL_PRESSED };
 };
-
-export const clearText = () => {
+export const clearPressed = () => {
+  return { type: actions.CLEAR_PRESSED };
+};
+export const decimalPressed = () => {
+  return { type: actions.DECIMAL_PRESSED };
+};
+export const mathOperationPressed = operation => {
   return {
-    type: actions.CLEAR
+    type: actions.MATH_OPERATION_PRESSED,
+    operation
   };
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { inputText, clearText, evalText } from "../actions/index";
+import * as actions from "../actions/index";
 import { connect } from "react-redux";
 import Calculator from "./Calculator";
 import "../styles/calculator.scss";
@@ -10,14 +10,20 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    inputText: text => {
-      dispatch(inputText(text));
+    digitPressed: digit => {
+      dispatch(actions.digitPressed(digit));
     },
-    clear: () => {
-      dispatch(clearText());
+    clearPressed: () => {
+      dispatch(actions.clearPressed());
     },
-    eval: () => {
-      dispatch(evalText());
+    evalPressed: () => {
+      dispatch(actions.evalPressed());
+    },
+    decimalPressed: () => {
+      dispatch(actions.decimalPressed());
+    },
+    mathOperationPressed: operation => {
+      dispatch(actions.mathOperationPressed(operation));
     }
   };
 };
@@ -25,12 +31,16 @@ const mapDispatchToProps = dispatch => {
 const Container = props => {
   return (
     <div className="wrapper">
-      <div>{props.expressionToDisplay}</div>
+      <div>{props.display}</div>
       <div id="display">{props.input}</div>
       <Calculator
-        eval={() => props.eval()}
-        clear={() => props.clear()}
-        input={text => props.inputText(text)}
+        eval={() => props.evalPressed()}
+        clear={() => props.clearPressed()}
+        digitPressed={digit => props.digitPressed(digit)}
+        mathOperationPressed={operation =>
+          props.mathOperationPressed(operation)
+        }
+        decimalPressed={() => props.decimalPressed()}
       />
     </div>
   );

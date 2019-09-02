@@ -24,7 +24,7 @@ export default class Calculator extends React.Component {
           type="button"
           key={i}
           value={i}
-          onClick={this.onInput}
+          onClick={this.onDigitPressed}
         >
           {i}
         </button>
@@ -32,8 +32,11 @@ export default class Calculator extends React.Component {
     }
     return items;
   }
-  onInput = event => {
-    this.props.input(event.target.value);
+  onDigitPressed = event => {
+    this.props.digitPressed(event.target.value);
+  };
+  onMathOperationPressed = event => {
+    this.props.mathOperationPressed(event.target.value);
   };
   onEvalClick = () => {
     this.props.eval();
@@ -41,30 +44,53 @@ export default class Calculator extends React.Component {
   onClearClick = () => {
     this.props.clear();
   };
+  onDecimalPressed = () => {
+    this.props.decimalPressed();
+  };
   render() {
     return (
       <div className="calculator">
         <button id="clear" type="button" onClick={this.onClearClick}>
           AC
         </button>
-        <button id="add" type="button" onClick={this.onInput} value="+">
+        <button
+          id="add"
+          type="button"
+          onClick={this.onMathOperationPressed}
+          value="+"
+        >
           +
         </button>
-        <button id="subtract" type="button" onClick={this.onInput} value="-">
+        <button
+          id="subtract"
+          type="button"
+          onClick={this.onMathOperationPressed}
+          value="-"
+        >
           -
         </button>
-        <button id="multiply" type="button" onClick={this.onInput} value="*">
+        <button
+          id="multiply"
+          type="button"
+          onClick={this.onMathOperationPressed}
+          value="*"
+        >
           *
         </button>
         {this.getNumberButtons()}
-        <button id="decimal" type="button" onClick={this.onInput} value=".">
-          .
-        </button>
-        <button id="divide" type="button" onClick={this.onInput} value="/">
+        <button
+          id="divide"
+          type="button"
+          onClick={this.onMathOperationPressed}
+          value="/"
+        >
           /
         </button>
-        <button id="equals" type="button" onClick={this.onEvalClick} value="=">
+        <button id="equals" type="button" onClick={this.onEvalClick}>
           =
+        </button>
+        <button id="decimal" type="button" onClick={this.onDecimalPressed}>
+          .
         </button>
       </div>
     );
