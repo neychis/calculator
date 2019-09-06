@@ -15,15 +15,16 @@ const numberNamings = [
 ];
 
 export default class Calculator extends React.Component {
-  getNumberButtons() {
+  getNumberButtons(from = 0, to = 0) {
     const items = [];
-    for (let i = numberNamings.length - 1; i >= 0; i--) {
+    for (let i = from; i >= to; i--) {
       items.push(
         <button
           id={numberNamings[i]}
           type="button"
           key={i}
           value={i}
+          className="number-button"
           onClick={this.onDigitPressed}
         >
           {i}
@@ -54,42 +55,54 @@ export default class Calculator extends React.Component {
           AC
         </button>
         <button
-          id="add"
+          id="divide"
           type="button"
+          value="/"
           onClick={this.onMathOperationPressed}
-          value="+"
+          className="math-operation-button"
         >
-          +
-        </button>
-        <button
-          id="subtract"
-          type="button"
-          onClick={this.onMathOperationPressed}
-          value="-"
-        >
-          -
+          /
         </button>
         <button
           id="multiply"
           type="button"
-          onClick={this.onMathOperationPressed}
           value="*"
+          onClick={this.onMathOperationPressed}
+          className="math-operation-button"
         >
           *
         </button>
-        {this.getNumberButtons()}
+        {this.getNumberButtons(9, 7)}
         <button
-          id="divide"
+          id="add"
           type="button"
+          value="+"
           onClick={this.onMathOperationPressed}
-          value="/"
+          className="math-operation-button"
         >
-          /
+          +
         </button>
+        {this.getNumberButtons(6, 4)}
+        <button
+          id="subtract"
+          type="button"
+          value="-"
+          onClick={this.onMathOperationPressed}
+          className="math-operation-button"
+        >
+          -
+        </button>
+        {this.getNumberButtons(3, 1)}
         <button id="equals" type="button" onClick={this.onEvalClick}>
           =
         </button>
-        <button id="decimal" type="button" onClick={this.onDecimalPressed}>
+        {this.getNumberButtons()}
+        <button
+          id="decimal"
+          type="button"
+          onClick={this.onDecimalPressed}
+          className="math-operation-button"
+        >
           .
         </button>
       </div>

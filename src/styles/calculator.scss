@@ -5,6 +5,19 @@
   width: 30%;
 }
 
+#clear {
+ // grid-area: "clear";
+  grid-column: 1 / 3;
+}
+
+#zero {
+  grid-column: 1 / 3;
+}
+
+#equals {
+  grid-column: 4;
+  grid-row: 4 / 6;
+}
 .wrapper {
   border: 1px solid #ececec;
   margin: auto;
