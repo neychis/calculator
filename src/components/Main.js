@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => {
 const Container = props => {
   return (
     <div className="wrapper">
-      <div class="display">
+      <div className="display">
         <div>{props.display}</div>
         <div id="display">{props.input}</div>
       </div>
