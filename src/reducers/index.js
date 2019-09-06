@@ -27,31 +27,36 @@ export const rootReducer = (state = defaultState, action) => {
 
 const handleDigitInput = (state, input) => {
   //TODO: check if last symbol of expressionToDisplay is number
-  let expr = state.display;
-  console.log(expr);
-  if (state.evaluated || !expr || +expr === 0) {
-    console.log(expr);
-    expr = "";
+  if (+state.input === 0 && +input === 0) {
+    return state;
+  } else {
+    let expr = state.display;
+    if (+expr === 0 || state.evaluated) {
+      expr = input;
+    } else {
+      expr += input;
+      if (!operationRegex.test(state.input)) {
+        input = state.input + input;
+      }
+    }
+
+    return {
+      input: input,
+      display: expr,
+      expressionToEval: expr
+    };
   }
-  expr += input;
-  if (!operationRegex.test(state.input)) {
-    input = state.input + input;
-  }
-  return {
-    input: input,
-    display: expr,
-    expressionToEval: expr
-  };
 };
 
 const handleMathOperation = (state, input) => {
   let display = state.display || "";
   if (state.evaluated) {
     display = state.input;
-  }
-  console.log(state.input.toString().slice(-1));
-  if (operationRegex.test(state.input) || state.display.slice(-1) === ".") {
-    display = state.display.slice(-1);
+  } else if (
+    (input !== "-" && operationRegex.test(state.input)) ||
+    state.input.slice(-1) === "."
+  ) {
+    display = removeUnnessesaryOperations(state.display);
   }
   display += input;
   return {
@@ -62,7 +67,7 @@ const handleMathOperation = (state, input) => {
 };
 
 const handleDecimalInput = state => {
-  if (state.input.split().indexOf(".") > 0) {
+  if (state.input.indexOf(".") > 0) {
     return state;
   } else {
     let input = state.input || 0;
@@ -83,14 +88,24 @@ const handleDecimalInput = state => {
 };
 
 const handleEval = state => {
-  console.log(state);
+  const expr = state.display;
+  if (expr.slice(-1) === "." || operationRegex.test(expr.slice(-1))) {
+    removeUnnessesaryOperations(state.display);
+  }
   let result = 0;
   try {
-    result = Math.round(100000 * eval(state.display || 0)) / 100000;
+    result = Math.round(100000 * eval(expr || 0)) / 100000;
   } catch (e) {}
   return {
     input: result,
-    display: state.display + "=" + result,
+    display: expr + "=" + result,
     evaluated: true
   };
+};
+
+const removeUnnessesaryOperations = expression => {
+  const result = expression;
+  const regex = /\d/;
+  regex.test(expression);
+  return result.slice(0, regex.lastIndex + 1);
 };
