@@ -31,8 +31,10 @@ const mapDispatchToProps = dispatch => {
 const Container = props => {
   return (
     <div className="wrapper">
-      <div>{props.display}</div>
-      <div id="display">{props.input}</div>
+      <div class="display">
+        <div>{props.display}</div>
+        <div id="display">{props.input}</div>
+      </div>
       <Calculator
         eval={() => props.evalPressed()}
         clear={() => props.clearPressed()}
