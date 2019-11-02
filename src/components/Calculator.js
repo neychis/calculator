@@ -1,34 +1,23 @@
 import React from "react";
+import Button from "./Button";
+import { numberNamings } from "../constants";
 import "../styles/calculator.scss";
 
-const numberNamings = [
-  "zero",
-  "one",
-  "two",
-  "three",
-  "four",
-  "five",
-  "six",
-  "seven",
-  "eight",
-  "nine"
-];
-
 export default class Calculator extends React.Component {
+  _mathOperationClassName = "math-operation-button";
   getNumberButtons(from = 0, to = 0) {
     const items = [];
     for (let i = from; i >= to; i--) {
       items.push(
-        <button
+        <Button
           id={numberNamings[i]}
-          type="button"
           key={i}
           value={i}
           className="number-button"
           onClick={this.onDigitPressed}
         >
           {i}
-        </button>
+        </Button>
       );
     }
     return items;
@@ -51,60 +40,55 @@ export default class Calculator extends React.Component {
   render() {
     return (
       <div className="calculator">
-        <button id="clear" type="button" onClick={this.onClearClick}>
+        <Button id="clear" onClick={this.onClearClick}>
           AC
-        </button>
-        <button
+        </Button>
+        <Button
           id="divide"
-          type="button"
           value="/"
           onClick={this.onMathOperationPressed}
-          className="math-operation-button"
+          className={this._mathOperationClassName}
         >
           /
-        </button>
-        <button
+        </Button>
+        <Button
           id="multiply"
-          type="button"
           value="*"
           onClick={this.onMathOperationPressed}
-          className="math-operation-button"
+          className={this._mathOperationClassName}
         >
-          *
-        </button>
+          > *
+        </Button>
         {this.getNumberButtons(9, 7)}
-        <button
+        <Button
           id="add"
-          type="button"
           value="+"
           onClick={this.onMathOperationPressed}
-          className="math-operation-button"
+          className={this._mathOperationClassName}
         >
           +
-        </button>
+        </Button>
         {this.getNumberButtons(6, 4)}
-        <button
+        <Button
           id="subtract"
-          type="button"
           value="-"
           onClick={this.onMathOperationPressed}
-          className="math-operation-button"
+          className={this._mathOperationClassName}
         >
           -
-        </button>
+        </Button>
         {this.getNumberButtons(3, 1)}
-        <button id="equals" type="button" onClick={this.onEvalClick}>
+        <Button id="equals" onClick={this.onEvalClick}>
           =
-        </button>
+        </Button>
         {this.getNumberButtons()}
-        <button
+        <Button
           id="decimal"
-          type="button"
           onClick={this.onDecimalPressed}
-          className="math-operation-button"
+          className={this._mathOperationClassName}
         >
           .
-        </button>
+        </Button>
       </div>
     );
   }

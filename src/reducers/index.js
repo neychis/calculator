@@ -1,12 +1,17 @@
 import { actions } from "../actions/constants";
 
+const operationRegex = /[\*\\\-\+]/i;
+const buttonStringValues = {
+  decimal: ".",
+  equals: "=",
+  subtract: "-",
+  zero: "0"
+};
 const defaultState = {
   input: "0",
   display: "",
   evaluated: false
 };
-
-const operationRegex = /[\*\\\-\+]/i;
 
 export const rootReducer = (state = defaultState, action) => {
   switch (action.type) {
@@ -27,14 +32,19 @@ export const rootReducer = (state = defaultState, action) => {
 
 const handleDigitInput = (state, input) => {
   //TODO: check if last symbol of expressionToDisplay is number
-  if (+state.input === 0 && +input === 0) {
+  if (
+    state.input === buttonStringValues.zero &&
+    input === buttonStringValues.zero
+  ) {
     return state;
   } else {
     let expr = state.display;
+
     if (+expr === 0 || state.evaluated) {
       expr = input;
     } else {
       expr += input;
+
       if (!operationRegex.test(state.input)) {
         input = state.input + input;
       }
@@ -50,15 +60,19 @@ const handleDigitInput = (state, input) => {
 
 const handleMathOperation = (state, input) => {
   let display = state.display || "";
+
   if (state.evaluated) {
     display = state.input;
   } else if (
-    (input !== "-" && operationRegex.test(state.input)) ||
-    state.input.slice(-1) === "."
+    (input !== buttonStringValues.subtract &&
+      operationRegex.test(state.input)) ||
+    state.input.slice(-1) === buttonStringValues.decimal
   ) {
     display = removeUnnessesaryOperations(state.display);
   }
+
   display += input;
+
   return {
     input,
     display,
@@ -67,19 +81,23 @@ const handleMathOperation = (state, input) => {
 };
 
 const handleDecimalInput = state => {
-  if (state.input.indexOf(".") > 0) {
+  if (state.input.indexOf(buttonStringValues.decimal) > 0) {
     return state;
   } else {
     let input = state.input || 0;
     let display = state.display || 0;
+
     if (state.evaluated) {
       display = state.input;
     }
+
     if (operationRegex.test(state.input)) {
-      display += "0";
+      display += buttonStringValues.zero;
     }
-    display += ".";
-    input += ".";
+
+    display += buttonStringValues.decimal;
+    input += buttonStringValues.decimal;
+
     return {
       input,
       display
@@ -89,16 +107,25 @@ const handleDecimalInput = state => {
 
 const handleEval = state => {
   const expr = state.display;
-  if (expr.slice(-1) === "." || operationRegex.test(expr.slice(-1))) {
+
+  if (
+    expr.slice(-1) === buttonStringValues.decimal ||
+    operationRegex.test(expr.slice(-1))
+  ) {
     removeUnnessesaryOperations(state.display);
   }
+
   let result = 0;
+
   try {
     result = Math.round(100000 * eval(expr || 0)) / 100000;
-  } catch (e) {}
+  } catch (e) {
+    throw new Error("Something went wrong");
+  }
+
   return {
     input: result,
-    display: expr + "=" + result,
+    display: `${expr} = ${result}`,
     evaluated: true
   };
 };
